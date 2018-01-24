@@ -26,6 +26,16 @@ function handle(req, res) {
             res.write("Contact Page");
             res.end();
             break;
+        case '/products':
+            var products = [
+                { id: 1, brand: "Nokia", model: "n8", price: 200, inStock: false },
+                { id: 2, brand: "Samsung", model: "n8", price: 200, inStock: true },
+                { id: 3, brand: "Apple", model: "Iphone 8", price: 1200, inStock: true },
+                { id: 4, brand: "Sony", model: "Xperia", price: 1200, inStock: false }
+            ];
+            res.write(JSON.stringify(products));
+            res.end();
+            break;
         default:
             res.write("Hello NodeJs");
             res.end();
