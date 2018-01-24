@@ -1,12 +1,14 @@
 function addAsync(a, b, cb) {
     console.log("Started...");
 
-    //db,file,web service, setTimeout
-    setTimeout(function () {
+    function myCallback() {
         console.log("Calculating");
         var c = a + b;
         cb(c, 1000);
-    }, 2000);
+    }
+
+    //db,file,web service, setTimeout
+    setTimeout(myCallback, 2000);
 
     console.log("Ended");
     return undefined;
