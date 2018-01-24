@@ -1,38 +1,40 @@
-function arraySum(a) {
-    var sum = 0;
-    for (var i = 0; i < a.length; i++) {
-        if (Array.isArray(a[i])) sum += arraySum(a[i]);
-        else sum += a[i];
+//1. JsRE 
+//2. Single threaded
+//3. Event driven (Event loop)
+//4. Server side
+//define()
+//module.common js. AMD, commonJs and Es6
+//7 times api 
+//Linked 21 servers ruby on rails 3 boxes and 20% up
+var http = require('http');
+var fs = require('fs');
+
+function handle(req, res) {
+    switch (req.url) {
+        case '/':
+            fs.readFile("index.html", function (err, contents) {
+                res.write(contents);
+                res.end();
+            });
+
+            break;
+        case '/about':
+            res.write("About Page");
+            res.end();
+            break;
+        case '/contact':
+            res.write("Contact Page");
+            res.end();
+            break;
+        default:
+            res.write("Hello NodeJs");
+            res.end();
+            break;
     }
-    return sum;
+
 }
 
-function add(a, b) {
+var server = http.createServer(handle);
+server.listen(3000);
 
-    if (typeof a === 'function') a = a();
-    if (typeof b === 'function') b = b();
-
-    if (Array.isArray(a)) a = arraySum(a);
-    if (Array.isArray(b)) b = arraySum(b);
-
-    console.log(a + b);
-}
-//ctrl+/
-// add(10, 20);
-// add("Sheldon", " Cooper");
-add([1, 2, [1, [1, [1, 2, 3], 2, 3], 2, 3], 3], [4, 5, 6]);
-
-// add(100, [1, 2, 3, 4]);
-// add([1, 2, 3], 200);
-
-// function first() {
-//     return 10;
-// }
-
-// function second() {
-//     return 20;
-// }
-
-// add(first, second);
-// add(10, 20, 30, 40);
-// add(10);
+console.log("Server is running on 3000");
