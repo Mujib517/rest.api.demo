@@ -1,41 +1,87 @@
-var products = [{ id: 1, brand: "Nokia", model: 'N8', price: 200, inStock: true },
-{ id: 2, brand: "Sony", model: 'X8', price: 200, inStock: true },
-{ id: 3, brand: "Samsung", model: 'S8', price: 1200, inStock: false },
-{ id: 4, brand: "Apple", model: 'Iphone8', price: 2200, inStock: true }];
-
+var Product = require('../models/product.model');
 
 module.exports = {
     get: function (req, res) {
-        res.status(200); //Ok
-        res.json(products);
+
+        Product.find({}, { '__v': 0 }, function (err, products) {
+            if (err) {
+                res.status(500);
+                res.send("Interal Server Error");
+            }
+            else {
+                res.status(200);
+                res.json(products);
+            }
+        });
     },
 
     getById: function (req, res) {
-        var id = +req.params.id;
-        var product;
-        for (var i = 0; i < products.length; i++) {
-            if (products[i].id === id) {
-                product = products[i];
-                break;
+        var id = req.params.id;
+        Product.findById(id, { '__v': 0 }, function (err, product) {
+            if (!err) {
+                if (product) {
+                    res.status(200);
+                    res.json(product);
+                }
+                else {
+                    res.status(404);
+                    res.send("Not found");
+                }
             }
-        }
-        //falsy: 0,null,undefined,"",NaN,false
-        if (product) {
-            res.status(200);
-            res.json(product);
-        }
-        else {
-            res.status(404);//not found
-            res.send("Not found");
-        }
+            else {
+                res.status(500);
+                res.send("Internal Server Error");
+            }
+        })
     },
 
     save: function (req, res) {
 
-        products.push(req.body);
+        var product = new Product(req.body);
 
-        res.status(201); //created
-        res.json(req.body);
+
+        product.save(function (err, product) {
+            if (err) {
+                res.status(500);
+                res.send(err);   //Internal Server Error.logging
+            }
+            else {
+                res.status(201); //created
+                res.json(product);
+            }
+        });
+    },
+
+    update: function (req, res) {
+        var id = req.params.id;
+
+        Product.findByIdAndUpdate(id,
+            { $set: { model: req.body.model, brand: req.body.brand, price: req.body.price, inStock: req.body.inStock } },
+
+            function (err, product) {
+                if (err) {
+                    res.status(500);
+                    res.send(err);
+                }
+                else {
+                    res.status(200);
+                    res.json(product);
+                }
+            });
+    },
+
+    delete: function (req, res) {
+        var id = req.params.id;
+        Product.findByIdAndRemove(id, function (err) {
+            if (!err) {
+                res.status(204);
+                res.send();
+            }
+            else {
+                res.status(500);
+                res.send("Internal Server Error");
+            }
+        });
     }
 };
 
