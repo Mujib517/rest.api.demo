@@ -7,52 +7,39 @@ module.exports = {
         var pageSize = +req.params.pageSize || 10;
         var pageIndex = +req.params.pageIndex || 0;
 
-        Product.count(function (err, cnt) {
+        function getData(err, products) {
+
+            if (err) {
+                res.status(500);
+                res.send("Interal Server Error");
+            }
+            else {
+                var response = {
+                    metadata: {
+                        count: count,
+                        total: Math.ceil(count / pageSize)
+                    },
+                    data: products
+                };
+                res.status(200);
+                res.json(response);
+            }
+        }
+
+        function getCount(err, cnt) {
             count = cnt;
 
-            var query = Product.find();
+            //deferred execution
+            var query = Product
+                .find({}, { '__v': 0 })
+                .skip(pageIndex * pageSize)
+                .limit(pageSize)
+                .sort("-lastUpdated");
 
-            query.skip(pageIndex * pageSize);
-            query.limit(pageSize);
+            query.exec(getData);
+        }
 
-            query.exec(function (err, products) {
-                if (err) {
-                    res.status(500);
-                    res.send("Interal Server Error");
-                }
-                else {
-                    var response = {
-                        metadata: {
-                            count: count,
-                            total: Math.ceil(count / pageSize)
-                        },
-                        data: products
-                    };
-                    res.status(200);
-                    res.json(response);
-                }
-            });
-
-
-
-            // Product.find({}, { '__v': 0 }, function (err, products) {
-            //     if (err) {
-            //         res.status(500);
-            //         res.send("Interal Server Error");
-            //     }
-            //     else {
-            //         var response = {
-            //             metadata: {
-            //                 count: count,
-            //                 total: Math.ceil(count / pageSize)
-            //             },
-            //             data: products
-            //         };
-            //         res.status(200);
-            //         res.json(response);
-            //     }
-            // });
-        });
+        Product.count(getCount);
     },
 
     getById: function (req, res) {
