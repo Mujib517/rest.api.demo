@@ -3,6 +3,7 @@ var router = express.Router();
 var productCtrl = require('../controllers/product.ctrl');
 
 //HTTP GET http://localhost:3000/products
+router.get('/:pageIndex/:pageSize', productCtrl.get);
 router.get('/', productCtrl.get);
 router.get('/:id', productCtrl.getById);
 //HTTP POST http://localhost:3000/products

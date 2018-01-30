@@ -1,17 +1,57 @@
 var Product = require('../models/product.model');
-
+//ORM ODM
 module.exports = {
     get: function (req, res) {
 
-        Product.find({}, { '__v': 0 }, function (err, products) {
-            if (err) {
-                res.status(500);
-                res.send("Interal Server Error");
-            }
-            else {
-                res.status(200);
-                res.json(products);
-            }
+        var count = 0;
+        var pageSize = +req.params.pageSize || 10;
+        var pageIndex = +req.params.pageIndex || 0;
+
+        Product.count(function (err, cnt) {
+            count = cnt;
+
+            var query = Product.find();
+
+            query.skip(pageIndex * pageSize);
+            query.limit(pageSize);
+
+            query.exec(function (err, products) {
+                if (err) {
+                    res.status(500);
+                    res.send("Interal Server Error");
+                }
+                else {
+                    var response = {
+                        metadata: {
+                            count: count,
+                            total: Math.ceil(count / pageSize)
+                        },
+                        data: products
+                    };
+                    res.status(200);
+                    res.json(response);
+                }
+            });
+
+
+
+            // Product.find({}, { '__v': 0 }, function (err, products) {
+            //     if (err) {
+            //         res.status(500);
+            //         res.send("Interal Server Error");
+            //     }
+            //     else {
+            //         var response = {
+            //             metadata: {
+            //                 count: count,
+            //                 total: Math.ceil(count / pageSize)
+            //             },
+            //             data: products
+            //         };
+            //         res.status(200);
+            //         res.json(response);
+            //     }
+            // });
         });
     },
 
