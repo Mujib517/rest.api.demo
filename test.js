@@ -10,17 +10,10 @@ function addAsync(a, b, cb) {
 }
 
 
-var prms = addAsync(10, 20);
+async function main() {
+    var result = await addAsync(10, 20);
+    console.log(result);
+}
 
-prms
-    .then(function (result) {
-        console.log(result);
-    })
-    .catch(function (err) {
-        console.log(err);
-    });
+main();
 
-
-prms.then(function (result) {
-    console.log("result ", result);
-});
