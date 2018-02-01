@@ -7,6 +7,8 @@ module.exports = {
         var count = 0;
         var pageSize = +req.params.pageSize || 10;
         var pageIndex = +req.params.pageIndex || 0;
+        var sortBy = req.query.sort || 'lastUpdated';
+        var sortDirection = req.query.sortDirection === 'asc' ? "" : "-";
 
         Product.count().exec()
             .then(function (cnt) {
@@ -17,7 +19,7 @@ module.exports = {
                     .find({}, { '__v': 0 })
                     .skip(pageIndex * pageSize)
                     .limit(pageSize)
-                    .sort("-lastUpdated");
+                    .sort(sortDirection + sortBy);
 
                 return query.exec();
             })
