@@ -6,6 +6,7 @@ var productCtrl = require('./controllers/product.ctrl');
 var defaultCtrl = require('./controllers/default.ctrl');
 var defaultRouter = require('./routes/default.router');
 var productRouter = require('./routes/product.router');
+var userRouter = require('./routes/user.router');
 
 var app = express();
 app.listen(3000, function () {
@@ -18,3 +19,4 @@ app.use(bodyParser.json());
 
 app.use('/', defaultRouter);
 app.use('/api/products', productRouter);
+app.use('/api/users', userRouter);

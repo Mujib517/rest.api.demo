@@ -42,7 +42,7 @@ module.exports = {
         Product.findById(id, { '__v': 0 }).exec()
             .then(function (product) {
                 if (product) {
-                    Review.find({ productId: id })
+                    Review.find({ productId: id }, { '__v': 0 })
                         .exec()
                         .then(function (reviews) {
                             var jsonProduct = product.toJSON();
