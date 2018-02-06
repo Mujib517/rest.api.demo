@@ -1,5 +1,7 @@
 var User = require('../models/user.model');
 var bcrypt = require('bcrypt');
+var jwt = require('jsonwebtoken');
+var config = require('../utilities/config');
 
 
 function sendErrorResponse(res) {
@@ -36,20 +38,30 @@ module.exports = {
 
             });
     },
-    signin: function (username, password, done) {
 
-        User.findOne({ username: username })
+    signin: function (req, res) {
+
+        User.findOne({ username: req.body.username })
             .exec()
             .then(function (user) {
                 if (user) {
-                    var result = bcrypt.compareSync(password, user.password);
-                    if (result) done(null);
-                    else done("Bad Credentials");
+                    var result = bcrypt.compareSync(req.body.password, user.password);
+                    if (result) {
+                        res.status(200);
+                        var token = jwt.sign({ username: req.body.username }, config.password,
+                            { expiresIn: config.expiry });
+                        var response = {
+                            username: req.body.username,
+                            token: token
+                        };
+                        res.json(response);
+                    }
+                    else sendErrorResponse(res);
                 }
-                else done("Bad Credentials");
+                else sendErrorResponse(res);
             })
             .catch(function (err) {
-                done("Bad Credentials");
+                sendErrorResponse(res);
             });
     }
 };
