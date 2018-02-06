@@ -7,6 +7,7 @@ var defaultCtrl = require('./controllers/default.ctrl');
 var defaultRouter = require('./routes/default.router');
 var productRouter = require('./routes/product.router');
 var userRouter = require('./routes/user.router');
+var isAuthenticated = require("./utilities/middlewares");
 
 var app = express();
 app.listen(3000, function () {
@@ -18,5 +19,10 @@ mongoose.connect("mongodb://localhost/myproductsdb");
 app.use(bodyParser.json());
 
 app.use('/', defaultRouter);
-app.use('/api/products', productRouter);
 app.use('/api/users', userRouter);
+
+
+
+app.use(isAuthenticated);
+app.use('/api/products', productRouter);
+

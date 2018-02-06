@@ -36,23 +36,20 @@ module.exports = {
 
             });
     },
-    signin: function (req, res) {
+    signin: function (username, password, done) {
 
-        User.findOne({ username: req.body.username })
+        User.findOne({ username: username })
             .exec()
             .then(function (user) {
                 if (user) {
-                    var result = bcrypt.compareSync(req.body.password, user.password);
-                    if (result) {
-                        res.status(200);
-                        res.send("Success");
-                    }
-                    else sendErrorResponse(res);
+                    var result = bcrypt.compareSync(password, user.password);
+                    if (result) done(null);
+                    else done("Bad Credentials");
                 }
-                else sendErrorResponse(res);
+                else done("Bad Credentials");
             })
             .catch(function (err) {
-                sendErrorResponse(res);
+                done("Bad Credentials");
             });
     }
 };
