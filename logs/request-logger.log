@@ -1,0 +1,6 @@
+[0mGET / [36m304 [0m27.391 ms - -[0m
+[0mGET /about [33m404 [0m10.149 ms - 144[0m
+[0mGET /api/products [36m304 [0m474.159 ms - -[0m
+::1 - - [07/Feb/2018:02:09:00 +0000] "GET /api/products HTTP/1.1" 304 - "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/64.0.3282.140 Safari/537.36"
+::1 - - [07/Feb/2018:02:11:44 +0000] "POST /api/users/signup HTTP/1.1" 201 129 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/64.0.3282.140 Safari/537.36"
+::1 - - [07/Feb/2018:02:11:50 +0000] "POST /api/users/signup HTTP/1.1" 500 38 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/64.0.3282.140 Safari/537.36"

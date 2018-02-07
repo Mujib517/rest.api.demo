@@ -1,6 +1,8 @@
 var express = require('express');
 var bodyParser = require("body-parser");
 var mongoose = require('mongoose');
+var morgan = require('morgan');
+var fs = require('fs');
 
 var productCtrl = require('./controllers/product.ctrl');
 var defaultCtrl = require('./controllers/default.ctrl');
@@ -18,6 +20,10 @@ app.listen(port, function () {
 });
 
 mongoose.connect(config.conStr);
+
+var file = fs.createWriteStream(__dirname + "/logs/request-logger.log", { flags: 'a' });
+
+app.use(morgan('combined', { stream: file }));
 
 app.use(bodyParser.json());
 

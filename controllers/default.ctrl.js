@@ -5,7 +5,7 @@ var ctrl = {
         // res.send("Hello ExpressJS!!");
 
         res
-            .status(500)
+            .status(200)
             .send("Express Demo API");
     },
 
