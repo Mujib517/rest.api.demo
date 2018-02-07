@@ -2,13 +2,12 @@ var User = require('../models/user.model');
 var bcrypt = require('bcrypt');
 var jwt = require('jsonwebtoken');
 var config = require('../utilities/config');
-
+var logger = require('../utilities/logger');
 
 function sendErrorResponse(res) {
     res.status(401);
     res.send("Unauthorized");
 }
-
 
 module.exports = {
     signup: function (req, res) {
@@ -29,9 +28,11 @@ module.exports = {
             .catch(function (err) {
                 if (err && err.errmsg && err.errmsg.indexOf("duplicate key error index") > -1) {
                     res.status(500);
+                    logger.error(err);
                     res.send("Username already exists. Please signin");
                 }
                 else {
+                    logger.error(err);
                     res.status(500);
                     res.send(err);
                 }

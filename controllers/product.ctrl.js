@@ -1,5 +1,7 @@
 var Product = require('../models/product.model');
 var Review = require('../models/review.model');
+var logger = require('../utilities/logger');
+
 //ORM ODM
 module.exports = {
     get: function (req, res) {
@@ -13,7 +15,7 @@ module.exports = {
         Product.count().exec()
             .then(function (cnt) {
                 count = cnt;
-
+                logger.info({ message: "Fetched " + cnt + " Records" });
                 //deferred execution
                 var query = Product
                     .find({}, { '__v': 0 })
@@ -34,7 +36,10 @@ module.exports = {
                 res.status(200);
                 res.json(response);
             })
-            .catch(function (err) { console.log(err) });
+            .catch(function (err) {
+                logger.error(err);
+                console.log(err)
+            });
     },
 
     getById: function (req, res) {
@@ -66,7 +71,6 @@ module.exports = {
     save: function (req, res) {
 
         var product = new Product(req.body);
-
 
         product.save(function (err, product) {
             if (err) {
