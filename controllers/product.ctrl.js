@@ -47,14 +47,25 @@ module.exports = {
         Product.findById(id, { '__v': 0 }).exec()
             .then(function (product) {
                 if (product) {
-                    Review.find({ productId: id }, { '__v': 0 })
-                        .exec()
-                        .then(function (reviews) {
-                            var jsonProduct = product.toJSON();
-                            jsonProduct.reviews = reviews;
+                    Review.aggregate([
+                        { $match: { productId: id } },
+                        { $group: { _id: 'productId', rating: { $avg: '$rating' } } }
 
-                            res.status(200);
-                            res.json(jsonProduct);
+                    ])
+                        .exec()
+                        .then(function (data) {
+                            Review.find({ productId: id }, { '__v': 0 })
+                                .exec()
+                                .then(function (reviews) {
+                                    var jsonProduct = product.toJSON();
+                                    jsonProduct.reviews = reviews;
+                                    if (data && data.length > 0) {
+                                        var avgRating = data[0].rating;
+                                        jsonProduct.rating = avgRating;
+                                    }
+                                    res.status(200);
+                                    res.json(jsonProduct);
+                                });
                         });
                 }
                 else {
