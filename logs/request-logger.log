@@ -25,3 +25,5 @@
 ::1 - - [08/Feb/2018:02:15:21 +0000] "GET /api/products/5a7a59a6c1661bc644367ae0 HTTP/1.1" 200 143 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/64.0.3282.140 Safari/537.36"
 ::1 - - [08/Feb/2018:02:16:05 +0000] "GET /api/products/5a7a59a6c1661bc644367ae0 HTTP/1.1" 304 - "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/64.0.3282.140 Safari/537.36"
 ::1 - - [08/Feb/2018:02:16:12 +0000] "GET /api/products/5a7a5994c1661bc644367add HTTP/1.1" 200 568 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/64.0.3282.140 Safari/537.36"
+::1 - - [08/Feb/2018:02:24:20 +0000] "GET / HTTP/1.1" 200 22 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/64.0.3282.140 Safari/537.36"
+::1 - - [08/Feb/2018:02:24:30 +0000] "GET / HTTP/1.1" 200 22 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/64.0.3282.140 Safari/537.36"

@@ -3,6 +3,9 @@ var bodyParser = require("body-parser");
 var mongoose = require('mongoose');
 var morgan = require('morgan');
 var fs = require('fs');
+var os = require('os');
+var cluster = require('cluster');
+
 
 var productCtrl = require('./controllers/product.ctrl');
 var defaultCtrl = require('./controllers/default.ctrl');
@@ -13,10 +16,23 @@ var isAuthenticated = require("./utilities/middlewares");
 var config = require("./utilities/config");
 
 var app = express();
-
 var port = process.env.PORT || 3000;
-app.listen(port, function () {
-    console.log("Server is running on port " + port);
+
+if (cluster.isMaster) {
+    var cores = os.cpus().length;
+
+    for (var i = 0; i < cores; i++) {
+        cluster.fork();
+    }
+}
+else {
+    app.listen(port, function () {
+        console.log("Server is running on port " + port + " with pid " + process.pid);
+    });
+}
+
+cluster.on('error', function () {
+    cluster.fork();
 });
 
 mongoose.connect(config.conStr);

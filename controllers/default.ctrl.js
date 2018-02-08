@@ -6,7 +6,7 @@ var ctrl = {
 
         res
             .status(200)
-            .send("Express Demo API");
+            .send("Express Demo API " + process.pid);
     },
 
     health: function (req, res) {
