@@ -2,6 +2,7 @@ var Product = require('../models/product.model');
 var Review = require('../models/review.model');
 var logger = require('../utilities/logger');
 
+
 //ORM ODM
 module.exports = {
     get: function (req, res) {
@@ -26,6 +27,12 @@ module.exports = {
                 return query.exec();
             })
             .then(function (products) {
+
+                for (var i = 0; i < products.length; i++) {
+                    if (products[i].image)
+                        products[i].image = "http://localhost:4000/" + products[i].image;
+                }
+
                 var response = {
                     metadata: {
                         count: count,
@@ -80,6 +87,9 @@ module.exports = {
     },
 
     save: function (req, res) {
+
+        var img = req.filename;
+        req.body.image = img;
 
         var product = new Product(req.body);
 

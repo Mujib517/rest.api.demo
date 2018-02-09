@@ -5,7 +5,8 @@ var model = mongoose.model('Product', {
     model: { type: String, required: true },
     price: { type: Number, required: true },
     inStock: { type: Boolean, default: true },
-    lastUpdated: { type: Date, default: Date.now() }
+    lastUpdated: { type: Date, default: Date.now() },
+    image: { type: String }
 });
 
 module.exports = model;

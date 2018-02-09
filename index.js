@@ -18,22 +18,26 @@ var config = require("./utilities/config");
 var app = express();
 var port = process.env.PORT || 3000;
 
-if (cluster.isMaster) {
-    var cores = os.cpus().length;
 
-    for (var i = 0; i < cores; i++) {
-        cluster.fork();
-    }
-}
-else {
-    app.listen(port, function () {
-        console.log("Server is running on port " + port + " with pid " + process.pid);
-    });
-}
 
-cluster.on('error', function () {
-    cluster.fork();
+
+// if (cluster.isMaster) {
+//     var cores = os.cpus().length;
+
+//     for (var i = 0; i < cores; i++) {
+//         cluster.fork();
+//     }
+// }
+// else {
+app.listen(port, function () {
+    console.log("Server is running on port " + port + " with pid " + process.pid);
 });
+// }
+
+// cluster.on('error', function () {
+//     cluster.fork();
+// });
+app.use(express.static(__dirname + '/uploads/'));
 
 mongoose.connect(config.conStr);
 
