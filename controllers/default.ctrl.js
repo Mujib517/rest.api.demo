@@ -3,7 +3,6 @@ var ctrl = {
     get: function (req, res) {
         // res.status(500);
         // res.send("Hello ExpressJS!!");
-
         res
             .status(200)
             .send("Express Demo API " + process.pid);

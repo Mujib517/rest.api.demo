@@ -30,7 +30,7 @@ module.exports = {
 
                 for (var i = 0; i < products.length; i++) {
                     if (products[i].image)
-                        products[i].image = "http://localhost:4000/" + products[i].image;
+                        products[i].image = req.protocol + "://" + req.get('host') + "/" + products[i].image;
                 }
 
                 var response = {

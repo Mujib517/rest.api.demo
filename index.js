@@ -18,9 +18,6 @@ var config = require("./utilities/config");
 var app = express();
 var port = process.env.PORT || 3000;
 
-
-
-
 // if (cluster.isMaster) {
 //     var cores = os.cpus().length;
 
