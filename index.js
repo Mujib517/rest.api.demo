@@ -5,7 +5,7 @@ var morgan = require('morgan');
 var fs = require('fs');
 var os = require('os');
 var cluster = require('cluster');
-
+var cors = require('cors'); //cross origin resource sharing
 
 var productCtrl = require('./controllers/product.ctrl');
 var defaultCtrl = require('./controllers/default.ctrl');
@@ -35,6 +35,7 @@ app.listen(port, function () {
 //     cluster.fork();
 // });
 app.use(express.static(__dirname + '/uploads/'));
+app.use(cors()); //allow everyone
 
 mongoose.connect(config.conStr);
 
